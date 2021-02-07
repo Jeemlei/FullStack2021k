@@ -9,7 +9,7 @@ const Country = ({ country }) => {
             <p>population {country.population.toLocaleString()}</p>
             <h3>languages</h3>
             <ul>
-                {country.languages.map(language => <li>{language.name}</li>)}
+                {country.languages.map(language => <li key={language.iso639_1}>{language.name}</li>)}
             </ul>
             <img src={country.flag} width="10%" height="10%" />
         </div>
