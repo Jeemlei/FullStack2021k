@@ -6,7 +6,21 @@ const PersonsForm = ({ newName, setNewName, newNumber, setNewNumber, persons, se
     const addPerson = (event) => {
         event.preventDefault()
 
-        if (typeof persons.find(person => person.name === newName) === 'undefined') {
+        const existingPerson = persons.find(person => person.name === newName)
+
+        if (typeof existingPerson !== 'undefined') {
+            if (window.confirm(`${newName} is already added to phonebook, replace the old number with a new one?`)) {
+                const newPerson = { ...existingPerson, number: newNumber }
+                personsService
+                    .update(existingPerson.id, newPerson)
+                    .then(() => {
+                        setPersons(persons.map(person => person.id !== newPerson.id ? person : newPerson))
+                        setNewName('')
+                        setNewNumber('')
+                    })
+            }
+
+        } else {
             const personObject = {
                 name: newName,
                 number: newNumber
@@ -19,8 +33,6 @@ const PersonsForm = ({ newName, setNewName, newNumber, setNewNumber, persons, se
                     setNewName('')
                     setNewNumber('')
                 })
-        } else {
-            alert(`${newName} is already added to phonebook`)
         }
     }
 
