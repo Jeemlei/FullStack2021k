@@ -1,7 +1,7 @@
 import React from 'react'
 import personsService from '../services/persons'
 
-const PersonsForm = ({ newName, setNewName, newNumber, setNewNumber, persons, setPersons }) => {
+const PersonsForm = ({ newName, setNewName, newNumber, setNewNumber, persons, setPersons, setNotification }) => {
 
     const addPerson = (event) => {
         event.preventDefault()
@@ -17,6 +17,19 @@ const PersonsForm = ({ newName, setNewName, newNumber, setNewNumber, persons, se
                         setPersons(persons.map(person => person.id !== newPerson.id ? person : newPerson))
                         setNewName('')
                         setNewNumber('')
+                        setNotification({text: `Updated ${newPerson.name}`, type: 'success'})
+                        setTimeout(() => {
+                            setNotification({})
+                        }, 3000)
+                    })
+                    .catch(error => {
+                        setPersons(persons.filter(person => person.id !== newPerson.id))
+                        setNewName('')
+                        setNewNumber('')
+                        setNotification({text: `Information of ${newPerson.name} has already been removed from server`, type: 'error'})
+                        setTimeout(() => {
+                            setNotification({})
+                        }, 3000)
                     })
             }
 
@@ -32,6 +45,10 @@ const PersonsForm = ({ newName, setNewName, newNumber, setNewNumber, persons, se
                     setPersons(persons.concat(returnedPerson))
                     setNewName('')
                     setNewNumber('')
+                    setNotification({text: `Added ${returnedPerson.name}`, type: 'success'})
+                    setTimeout(() => {
+                        setNotification({})
+                    }, 3000)
                 })
         }
     }
