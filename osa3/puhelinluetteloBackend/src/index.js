@@ -45,7 +45,18 @@ app.get('/api/persons/:id', (req, res) => {
 })
 
 app.post('/api/persons', (req, res) => {
-    const newPerson = {...req.body, id: Math.floor(Math.random() * Number.MAX_SAFE_INTEGER)}
+    const newPerson = { ...req.body, id: Math.floor(Math.random() * Number.MAX_SAFE_INTEGER) }
+
+    if (!newPerson.name || !newPerson.number) {
+        return res.status(400).json({
+            error: 'content missing'
+        })
+    } else if (persons.find(person => person.name === newPerson.name)) {
+        return res.status(400).json({
+            error: 'name must be unique'
+        })
+    }
+
     persons = persons.concat(newPerson)
 })
 
