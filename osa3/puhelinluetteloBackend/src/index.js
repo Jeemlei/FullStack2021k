@@ -12,7 +12,7 @@ app.use(morgan(':method :url :status :res[content-length] - :response-time ms :c
 
 morgan.token('content', function (req, res) { return JSON.stringify(req.body) })
 
-let persons = [
+/*[
     {
         "name": "Arto Hellas",
         "number": "040-123456",
@@ -33,43 +33,47 @@ let persons = [
         "number": "39-23-6423122",
         "id": 4
     }
-]
+]*/
 
 app.get('/api/info', (req, res) => {
-    res.send(`<p>Phonebook has info for ${persons.length} people</p>${new Date()}`)
+    Person.find({}).then(persons => {
+        res.send(`<p>Phonebook has info for ${persons.length} people</p>${new Date()}`)
+    })
 })
 
 app.get('/api/persons', (req, res) => {
-    Person.find({}).then(person => {
-        res.json(person)
+    Person.find({}).then(persons => {
+        res.json(persons)
     })
 })
 
 app.get('/api/persons/:id', (req, res) => {
-    const person = persons.find(person => person.id == req.params.id)
-
-    if (person) {
+    Person.findById(req.params.id).then(person => {
         res.json(person)
-    } else {
-        res.status(404).end()
-    }
+    })
 })
 
 app.post('/api/persons', (req, res) => {
-    const newPerson = { ...req.body, id: Math.floor(Math.random() * Number.MAX_SAFE_INTEGER) }
+    Person.find({})
+        .then(persons => {
+            if (!req.body.name || !req.body.number) {
+                return res.status(400).json({ error: 'content missing' })
+            } else if (persons.find(person => person.name === req.body.name)) {
+                return res.status(400).json({ error: 'name must be unique' })
+            }
 
-    if (!newPerson.name || !newPerson.number) {
-        return res.status(400).json({
-            error: 'content missing'
-        })
-    } else if (persons.find(person => person.name === newPerson.name)) {
-        return res.status(400).json({
-            error: 'name must be unique'
-        })
-    }
+            const newPerson = new Person({
+                name: req.body.name,
+                number: req.body.number
+            })
 
-    persons = persons.concat(newPerson)
-    res.json(newPerson)
+            newPerson.save().then(savedPerson => {
+                res.json(savedPerson)
+            })
+        })
+        .catch((error) => {
+            console.log('error connecting to MongoDB:', error.message)
+        })
 })
 
 app.delete('/api/persons/:id', (req, res) => {
