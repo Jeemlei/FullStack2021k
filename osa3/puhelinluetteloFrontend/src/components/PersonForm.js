@@ -50,6 +50,12 @@ const PersonsForm = ({ newName, setNewName, newNumber, setNewNumber, persons, se
                         setNotification({})
                     }, 3000)
                 })
+                .catch(error => {
+                    setNotification({text: `${error.response.data.error}`, type: 'error'})
+                    setTimeout(() => {
+                        setNotification({})
+                    }, 10000)
+                })
         }
     }
 
