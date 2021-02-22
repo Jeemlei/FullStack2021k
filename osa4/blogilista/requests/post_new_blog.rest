@@ -1,9 +1,11 @@
 POST http://localhost:3003/api/blogs
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3RuYW1lIiwiaWQiOiI2MDMzZDRkZTFiNWVhMjRiYzg2ODFhNTYiLCJpYXQiOjE2MTQwMTEyNDR9.6sOdFLxyc6r1Jdn-9RBiaWdekbyjepzjXlDy4lJffI8
 
 {
 	"title": "Test title",
 	"author": "Test author",
 	"url": "http://www.testurl.wtf",
-	"likes": 1337
+	"likes": 1337,
+	"user": "6033d4de1b5ea24bc8681a56"
 }
