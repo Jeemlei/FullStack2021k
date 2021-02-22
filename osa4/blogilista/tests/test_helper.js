@@ -1,4 +1,5 @@
 const Blog = require('../src/models/blog')
+const User = require('../src/models/user')
 
 const listWithOneBlog = [
 	{
@@ -151,9 +152,9 @@ const blogsInDb = async () => {
 }
 
 module.exports = {
-    listWithOneBlog,
-    listWithManyBlogs,
-    listWithEquallyPopularBlogs,
+	listWithOneBlog,
+	listWithManyBlogs,
+	listWithEquallyPopularBlogs,
 	listWithEqualLikesAndBlogs,
-	blogsInDb
+	blogsInDb,
 }

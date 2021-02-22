@@ -3,12 +3,18 @@ const usersRouter = require('express').Router()
 const User = require('../models/user')
 
 usersRouter.get('/', async (request, response) => {
-    const users = await User.find({})
-    response.json(users)
+	const users = await User.find({})
+	response.json(users)
 })
 
 usersRouter.post('/', async (request, response) => {
 	const body = request.body
+
+	if (body.password.length < 3) {
+        const e = new Error('password min length 3')
+        e.name = 'ValidationError'
+        throw e
+    }
 
 	const saltRounds = 10
 	const passwordHash = await bcrypt.hash(body.password, saltRounds)
@@ -17,11 +23,11 @@ usersRouter.post('/', async (request, response) => {
 		username: body.username,
 		name: body.name,
 		passwordHash,
-    })
-    
-    const savedUser = await user.save()
+	})
 
-    response.json(savedUser)
+	const savedUser = await user.save()
+
+	response.json(savedUser)
 })
 
 module.exports = usersRouter
