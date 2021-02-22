@@ -8,7 +8,7 @@ const requestLogger = (request, response, next) => {
 	next()
 }
 
-const getTokenFrom = (request, response,  next) => {
+const tokenExtractor = (request, response,  next) => {
 	const authorization = request.get('authorization')
 	if (authorization && authorization.toLowerCase().startsWith('bearer ')) {
 		request.token = authorization.substring(7)
@@ -33,6 +33,8 @@ const errorHandler = (error, request, response, next) => {
 		return response.status(401).json({
 			error: 'invalid token',
 		})
+	} else if (error.name === 'AuthorizationError') {
+		return response.status(403).json({ error: error.message })
 	}
 
 	next(error)
@@ -40,7 +42,7 @@ const errorHandler = (error, request, response, next) => {
 
 module.exports = {
 	requestLogger,
-	getTokenFrom,
+	tokenExtractor,
 	unknownEndpoint,
 	errorHandler,
 }
