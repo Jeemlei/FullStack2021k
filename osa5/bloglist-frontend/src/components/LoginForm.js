@@ -1,12 +1,15 @@
 import React from 'react'
 import loginService from '../services/login'
 
-const LoginForm = ({ username, setUsername, password, setPassword, user, setUser }) => {
+const LoginForm = ({ username, setUsername, password, setPassword, setUser }) => {
 	const handleLogin = async event => {
         event.preventDefault()
         
         try {
             const userDetails = await loginService.login({ username, password })
+
+            window.localStorage.setItem('loggedUserDetails', JSON.stringify(userDetails))
+
             setUser(userDetails)
             setUsername('')
             setPassword('')
