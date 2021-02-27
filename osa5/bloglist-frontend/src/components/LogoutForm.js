@@ -1,8 +1,9 @@
 import React from 'react'
+import loginService from '../services/login'
 
 const LogoutForm = ({ user, setUser }) => {
 	const handleLogout = () => {
-		window.localStorage.removeItem('loggedUserDetails')
+		loginService.logout()
 		setUser(null)
 	}
 
