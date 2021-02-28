@@ -32,6 +32,15 @@ const Blog = ({ blog, blogs, setBlogs }) => {
 		setBlogs(updatedBlogs)
 	}
 
+	const handleDelete = async () => {
+		if (window.confirm(`Remove ${blog.title} by ${blog.author}`)) {
+			const response = await blogsService.remove(blog.id)
+			console.log(response)
+			const updatedBlogs = blogs.filter(b => blog.id !== b.id)
+			setBlogs(updatedBlogs)
+		}
+	}
+
 	return (
 		<div style={blogStyle}>
 			<div style={titleView}>
@@ -47,6 +56,13 @@ const Blog = ({ blog, blogs, setBlogs }) => {
 				likes {blog.likes} <button onClick={handleLike}>like</button>
 				<br />
 				{blog.user.name}
+				{blog.user.username ===
+					JSON.parse(window.localStorage.getItem('loggedUserDetails'))
+						.username && (
+					<div>
+						<button onClick={handleDelete}>delete</button>
+					</div>
+				)}
 			</div>
 		</div>
 	)

@@ -20,5 +20,13 @@ const update = async (id, updatedBlog) => {
 	return response
 }
 
+const remove = async (id) => {
+	const config = {
+		headers: { Authorization: loginService.getToken() },
+	}
+	const response = await axios.delete(`${baseUrl}/${id}`, config)
+	return response
+}
+
 // eslint-disable-next-line
-export default { getAll, create, update }
+export default { getAll, create, update, remove }
