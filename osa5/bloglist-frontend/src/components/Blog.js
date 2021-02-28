@@ -17,7 +17,19 @@ const Blog = ({ blog, blogs, setBlogs }) => {
 	const handleLike = async () => {
 		blog.likes += 1
 		const updatedBlog = await blogsService.update(blog.id, blog)
-    setBlogs(blogs.map(b => updatedBlog.id === b.id ? updatedBlog : b))
+		const updatedBlogs = blogs.map(b =>
+			updatedBlog.id === b.id ? updatedBlog : b
+		)
+		updatedBlogs.sort((a, b) => {
+			if (a.likes > b.likes) {
+				return -1
+			}
+			if (a.likes < b.likes) {
+				return 1
+			}
+			return 0
+		})
+		setBlogs(updatedBlogs)
 	}
 
 	return (
