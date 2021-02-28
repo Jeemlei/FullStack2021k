@@ -14,23 +14,26 @@ const NewBlogForm = ({ blogs, setBlogs, setNotification, blogFormRef }) => {
 				title: title,
 				author: author,
 				url: url,
-				likes: 0
-            })
-            setTitle('')
-            setAuthor('')
-            setUrl('')
-            setBlogs(blogs.concat(newBlog.data))
+				likes: 0,
+			})
+			setTitle('')
+			setAuthor('')
+			setUrl('')
+			setBlogs(blogs.concat(newBlog.data))
 			blogFormRef.current.toggleVisibility()
-            setNotification({message: `${newBlog.data.title} by ${newBlog.data.author} added`, type: 'success'})
+			setNotification({
+				message: `${newBlog.data.title} by ${newBlog.data.author} added`,
+				type: 'success',
+			})
 			setTimeout(() => {
-				setNotification({message: null, type: null})
+				setNotification({ message: null, type: null })
 			}, 5000)
 		} catch (error) {
-            setNotification({message: error.message, type: 'error'})
+			setNotification({ message: error.message, type: 'error' })
 			setTimeout(() => {
-				setNotification({message: null, type: null})
+				setNotification({ message: null, type: null })
 			}, 5000)
-        }
+		}
 	}
 
 	const handleTitleInput = ({ target }) => setTitle(target.value)

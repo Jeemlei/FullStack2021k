@@ -15,11 +15,11 @@ const LoginForm = ({ setUser, notification, setNotification }) => {
 			setPassword('')
 			setUser(userDetails)
 		} catch (error) {
-            setNotification({message: 'wrong username or password', type: 'error'})
+			setNotification({ message: 'wrong username or password', type: 'error' })
 			setTimeout(() => {
-				setNotification({message: null, type: null})
+				setNotification({ message: null, type: null })
 			}, 5000)
-        }
+		}
 	}
 
 	const handleUsernameInput = ({ target }) => setUsername(target.value)
