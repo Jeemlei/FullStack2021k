@@ -44,7 +44,7 @@ const App = () => {
 			<h2>blogs</h2>
 			<Notification message={notification.message} type={notification.type} />
 			<LogoutForm user={user} setUser={setUser} />
-			<Togglable buttonLabel={'new note'} ref={blogFormRef}>
+			<Togglable buttonLabel={'new note'} hideLabel={'cancel'} ref={blogFormRef}>
 				<NewBlogForm
 					blogs={blogs}
 					setBlogs={setBlogs}
