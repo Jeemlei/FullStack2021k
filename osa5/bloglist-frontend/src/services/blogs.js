@@ -10,10 +10,15 @@ const getAll = () => {
 const create = async newBlog => {
 	const config = {
 		headers: { Authorization: loginService.getToken() },
-  }
-  const response = await axios.post(baseUrl, newBlog, config)
-  return response
+	}
+	const response = await axios.post(baseUrl, newBlog, config)
+	return response
+}
+
+const update = async (id, updatedBlog) => {
+	const response = await axios.put(`${baseUrl}/${id}`, updatedBlog)
+	return response
 }
 
 // eslint-disable-next-line
-export default { getAll, create }
+export default { getAll, create, update }
