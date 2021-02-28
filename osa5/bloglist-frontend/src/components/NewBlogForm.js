@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import blogsService from '../services/blogs'
 
-const NewBlogForm = ({ blogs, setBlogs, setNotification }) => {
+const NewBlogForm = ({ blogs, setBlogs, setNotification, blogFormRef }) => {
 	const [title, setTitle] = useState('')
 	const [author, setAuthor] = useState('')
 	const [url, setUrl] = useState('')
@@ -14,11 +14,13 @@ const NewBlogForm = ({ blogs, setBlogs, setNotification }) => {
 				title: title,
 				author: author,
 				url: url,
+				likes: 0
             })
             setTitle('')
             setAuthor('')
             setUrl('')
             setBlogs(blogs.concat(newBlog.data))
+			blogFormRef.current.toggleVisibility()
             setNotification({message: `${newBlog.data.title} by ${newBlog.data.author} added`, type: 'success'})
 			setTimeout(() => {
 				setNotification({message: null, type: null})
@@ -55,7 +57,6 @@ const NewBlogForm = ({ blogs, setBlogs, setNotification }) => {
 					<button type="submit">create</button>
 				</div>
 			</form>
-			<br />
 		</div>
 	)
 }
