@@ -38,7 +38,27 @@ const App = () => {
 		}
 	}, [])
 
-	const handleLike = async (blog) => {
+	const createNewBlog = async blog => {
+		try {
+			const newBlog = await blogsService.create(blog)
+			setBlogs(blogs.concat(newBlog.data))
+			blogFormRef.current.toggleVisibility()
+			setNotification({
+				message: `${newBlog.data.title} by ${newBlog.data.author} added`,
+				type: 'success',
+			})
+			setTimeout(() => {
+				setNotification({ message: null, type: null })
+			}, 5000)
+		} catch (error) {
+			setNotification({ message: error.message, type: 'error' })
+			setTimeout(() => {
+				setNotification({ message: null, type: null })
+			}, 5000)
+		}
+	}
+
+	const handleLike = async blog => {
 		blog.likes += 1
 		const updatedBlog = await blogsService.update(blog.id, blog)
 		const updatedBlogs = blogs.map(b =>
@@ -56,7 +76,7 @@ const App = () => {
 		setBlogs(updatedBlogs)
 	}
 
-	const handleDelete = async (blog) => {
+	const handleDelete = async blog => {
 		if (window.confirm(`Remove ${blog.title} by ${blog.author}`)) {
 			const response = await blogsService.remove(blog.id)
 			console.log(response)
@@ -87,15 +107,15 @@ const App = () => {
 				hideLabel={'cancel'}
 				ref={blogFormRef}
 			>
-				<NewBlogForm
-					blogs={blogs}
-					setBlogs={setBlogs}
-					setNotification={setNotification}
-					blogFormRef={blogFormRef}
-				/>
+				<NewBlogForm createNewBlog={createNewBlog} />
 			</Togglable>
 			{blogs.map(blog => (
-				<Blog key={blog.id} blog={blog} handleLike={handleLike} handleDelete={handleDelete} />
+				<Blog
+					key={blog.id}
+					blog={blog}
+					handleLike={handleLike}
+					handleDelete={handleDelete}
+				/>
 			))}
 		</div>
 	)

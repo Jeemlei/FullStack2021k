@@ -17,10 +17,10 @@ describe('Blog component', () => {
 		},
 		id: '0',
 	}
-
-	let component
 	let handleLike
 	let handleDelete
+
+	let component
 
 	beforeEach(() => {
 		handleLike = jest.fn()
