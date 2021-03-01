@@ -1,6 +1,6 @@
 import React from 'react'
 import '@testing-library/jest-dom/extend-expect'
-import { render } from '@testing-library/react'
+import { render, fireEvent } from '@testing-library/react'
 import Blog from './Blog'
 
 describe('Blog component', () => {
@@ -38,6 +38,18 @@ describe('Blog component', () => {
 		expect(titleView).not.toHaveTextContent(
 			'https://overreacted.io/things-i-dont-know-as-of-2018/'
 		)
-		expect(titleView).not.toHaveTextContent('likes:')
+		expect(titleView).not.toHaveTextContent('likes 0')
+	})
+
+	test('renders url and likes after pressing show-button', () => {
+		const button = component.getByText('show')
+		fireEvent.click(button)
+
+		const fullView = component.container.querySelector('.fullView')
+		expect(fullView).toHaveStyle('display: block')
+		expect(fullView).toHaveTextContent(
+			'https://overreacted.io/things-i-dont-know-as-of-2018/'
+		)
+		expect(fullView).toHaveTextContent('likes 0')
 	})
 })
