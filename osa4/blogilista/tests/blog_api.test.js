@@ -7,8 +7,14 @@ const api = supertest(app)
 
 const Blog = require('../src/models/blog')
 
+let token
+
 describe('With many blogs in the db', () => {
 	beforeEach(async () => {
+		const response = await api
+			.post('/api/login')
+			.send({ username: 'test', password: 'SalainenSana' })
+		token = response.body.token
 		await Blog.deleteMany({})
 		await Blog.insertMany(helper.listWithManyBlogs)
 	})
@@ -48,8 +54,11 @@ describe('With many blogs in the db', () => {
 			likes: 1337,
 		}
 
+		console.log('TOKEN', token)
+
 		await api
 			.post('/api/blogs')
+			.set('Authorization', `Bearer ${token}`)
 			.send(newBlog)
 			.expect(201)
 			.expect('Content-Type', /application\/json/)
@@ -68,7 +77,11 @@ describe('With many blogs in the db', () => {
 			likes: 1337,
 		}
 
-		await api.post('/api/blogs').send(newBlog).expect(400)
+		await await api
+			.post('/api/blogs')
+			.set('Authorization', `Bearer ${token}`)
+			.send(newBlog)
+			.expect(400)
 	})
 })
 

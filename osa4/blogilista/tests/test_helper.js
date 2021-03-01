@@ -9,6 +9,7 @@ const listWithOneBlog = [
 		url:
 			'http://www.u.arizona.edu/~rubinson/copyright_violations/Go_To_Considered_Harmful.html',
 		likes: 5,
+		user: '603d218e260c594c3871a172',
 		__v: 0,
 	},
 ]
@@ -19,6 +20,7 @@ const listWithManyBlogs = [
 		author: 'Michael Chan',
 		url: 'https://reactpatterns.com/',
 		likes: 7,
+		user: '603d218e260c594c3871a172',
 		__v: 0,
 	},
 	{
@@ -28,6 +30,7 @@ const listWithManyBlogs = [
 		url:
 			'http://www.u.arizona.edu/~rubinson/copyright_violations/Go_To_Considered_Harmful.html',
 		likes: 5,
+		user: '603d218e260c594c3871a172',
 		__v: 0,
 	},
 	{
@@ -36,6 +39,7 @@ const listWithManyBlogs = [
 		author: 'Edsger W. Dijkstra',
 		url: 'http://www.cs.utexas.edu/~EWD/transcriptions/EWD08xx/EWD808.html',
 		likes: 12,
+		user: '603d218e260c594c3871a172',
 		__v: 0,
 	},
 	{
@@ -45,6 +49,7 @@ const listWithManyBlogs = [
 		url:
 			'http://blog.cleancoder.com/uncle-bob/2017/05/05/TestDefinitions.htmll',
 		likes: 10,
+		user: '603d218e260c594c3871a172',
 		__v: 0,
 	},
 	{
@@ -54,6 +59,7 @@ const listWithManyBlogs = [
 		url:
 			'http://blog.cleancoder.com/uncle-bob/2017/03/03/TDD-Harms-Architecture.html',
 		likes: 0,
+		user: '603d218e260c594c3871a172',
 		__v: 0,
 	},
 	{
@@ -62,6 +68,7 @@ const listWithManyBlogs = [
 		author: 'Robert C. Martin',
 		url: 'http://blog.cleancoder.com/uncle-bob/2016/05/01/TypeWars.html',
 		likes: 2,
+		user: '603d218e260c594c3871a172',
 		__v: 0,
 	},
 ]
@@ -73,6 +80,7 @@ const listWithEquallyPopularBlogs = [
 		url:
 			'http://www.u.arizona.edu/~rubinson/copyright_violations/Go_To_Considered_Harmful.html',
 		likes: 5,
+		user: '603d218e260c594c3871a172',
 		__v: 0,
 	},
 	{
@@ -81,6 +89,7 @@ const listWithEquallyPopularBlogs = [
 		author: 'Edsger W. Dijkstra',
 		url: 'http://www.cs.utexas.edu/~EWD/transcriptions/EWD08xx/EWD808.html',
 		likes: 12,
+		user: '603d218e260c594c3871a172',
 		__v: 0,
 	},
 	{
@@ -90,6 +99,7 @@ const listWithEquallyPopularBlogs = [
 		url:
 			'http://blog.cleancoder.com/uncle-bob/2017/05/05/TestDefinitions.htmll',
 		likes: 12,
+		user: '603d218e260c594c3871a172',
 		__v: 0,
 	},
 	{
@@ -98,6 +108,7 @@ const listWithEquallyPopularBlogs = [
 		author: 'Robert C. Martin',
 		url: 'http://blog.cleancoder.com/uncle-bob/2016/05/01/TypeWars.html',
 		likes: 2,
+		user: '603d218e260c594c3871a172',
 		__v: 0,
 	},
 ]
@@ -108,6 +119,7 @@ const listWithEqualLikesAndBlogs = [
 		author: 'Michael Chan',
 		url: 'https://reactpatterns.com/',
 		likes: 7,
+		user: '603d218e260c594c3871a172',
 		__v: 0,
 	},
 	{
@@ -117,6 +129,7 @@ const listWithEqualLikesAndBlogs = [
 		url:
 			'http://www.u.arizona.edu/~rubinson/copyright_violations/Go_To_Considered_Harmful.html',
 		likes: 5,
+		user: '603d218e260c594c3871a172',
 		__v: 0,
 	},
 	{
@@ -125,6 +138,7 @@ const listWithEqualLikesAndBlogs = [
 		author: 'Edsger W. Dijkstra',
 		url: 'http://www.cs.utexas.edu/~EWD/transcriptions/EWD08xx/EWD808.html',
 		likes: 12,
+		user: '603d218e260c594c3871a172',
 		__v: 0,
 	},
 	{
@@ -134,6 +148,7 @@ const listWithEqualLikesAndBlogs = [
 		url:
 			'http://blog.cleancoder.com/uncle-bob/2017/05/05/TestDefinitions.htmll',
 		likes: 10,
+		user: '603d218e260c594c3871a172',
 		__v: 0,
 	},
 	{
@@ -142,6 +157,7 @@ const listWithEqualLikesAndBlogs = [
 		author: 'Robert C. Martin',
 		url: 'http://blog.cleancoder.com/uncle-bob/2016/05/01/TypeWars.html',
 		likes: 7,
+		user: '603d24857d89e11544af9f80',
 		__v: 0,
 	},
 ]

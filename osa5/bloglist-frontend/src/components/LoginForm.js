@@ -31,14 +31,14 @@ const LoginForm = ({ setUser, notification, setNotification }) => {
 			<form onSubmit={handleLogin}>
 				<div>
 					username&nbsp;
-					<input value={username} onChange={handleUsernameInput} />
+					<input id='username' value={username} onChange={handleUsernameInput} />
 				</div>
 				<div>
 					password&nbsp;
-					<input type="password" value={password} onChange={handlePsswdInput} />
+					<input id='password' type="password" value={password} onChange={handlePsswdInput} />
 				</div>
 				<div>
-					<button type="submit">login</button>
+					<button id='login-button' type="submit">login</button>
 				</div>
 			</form>
 		</div>
