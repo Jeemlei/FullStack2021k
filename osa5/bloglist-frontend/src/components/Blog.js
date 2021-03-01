@@ -5,6 +5,10 @@ import blogsService from '../services/blogs'
 const Blog = ({ blog, blogs, setBlogs }) => {
 	const [view, setView] = useState(false)
 
+	const user = window.localStorage.getItem('loggedUserDetails')
+		? JSON.parse(window.localStorage.getItem('loggedUserDetails'))
+		: { username: '' }
+
 	const titleView = { display: view ? 'none' : '' }
 	const fullView = { display: view ? '' : 'none' }
 
@@ -44,11 +48,11 @@ const Blog = ({ blog, blogs, setBlogs }) => {
 
 	return (
 		<div style={blogStyle}>
-			<div style={titleView}>
+			<div style={titleView} className='titleView'>
 				{blog.title} {blog.author}{' '}
 				<button onClick={() => setView(true)}>show</button>
 			</div>
-			<div style={fullView}>
+			<div style={fullView} className='fullView'>
 				{blog.title} {blog.author}{' '}
 				<button onClick={() => setView(false)}>hide</button>
 				<br />
@@ -57,9 +61,7 @@ const Blog = ({ blog, blogs, setBlogs }) => {
 				likes {blog.likes} <button onClick={handleLike}>like</button>
 				<br />
 				{blog.user.name}
-				{blog.user.username ===
-					JSON.parse(window.localStorage.getItem('loggedUserDetails'))
-						.username && (
+				{blog.user.username === user.username && (
 					<div>
 						<button onClick={handleDelete}>delete</button>
 					</div>
