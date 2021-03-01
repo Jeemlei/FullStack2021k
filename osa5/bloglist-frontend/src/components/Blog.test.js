@@ -17,10 +17,17 @@ describe('Blog component', () => {
 		},
 		id: '0',
 	}
+
 	let component
+	let handleLike
+	let handleDelete
 
 	beforeEach(() => {
-		component = render(<Blog blog={blog} blogs={[blog]} setBlogs={() => {}} />)
+		handleLike = jest.fn()
+		handleDelete = jest.fn()
+		component = render(
+			<Blog blog={blog} handleLike={handleLike} handleDelete={handleDelete} />
+		)
 	})
 
 	test('renders title and author', () => {
@@ -51,5 +58,12 @@ describe('Blog component', () => {
 			'https://overreacted.io/things-i-dont-know-as-of-2018/'
 		)
 		expect(fullView).toHaveTextContent('likes 0')
+	})
+
+	test('pressing like-button fires event handler', () => {
+		const button = component.getByText('like')
+		fireEvent.click(button)
+		fireEvent.click(button)
+		expect(handleLike.mock.calls).toHaveLength(2)
 	})
 })
