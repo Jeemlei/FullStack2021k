@@ -12,5 +12,10 @@ const create = async anecdote => {
     return response.data
 }
 
+const update = async anecdote => {
+    const response = await axios.put(`${baseUrl}/${anecdote.id}`, anecdote)
+    return response.data
+}
+
 // eslint-disable-next-line
-export default { getAll, create }
+export default { getAll, create, update }
