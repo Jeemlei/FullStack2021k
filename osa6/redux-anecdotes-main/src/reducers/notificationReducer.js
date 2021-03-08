@@ -7,18 +7,23 @@ const reducer = (state = '', action) => {
 	}
 }
 
+let timeout
 export const notify = (msg, seconds) => {
 	return async dispatch => {
-		await setTimeout(() => {
+		if (timeout) {
+			clearTimeout(timeout)
+			timeout = null
+		}
+		dispatch({
+			type: 'SET',
+			data: msg,
+		})
+		timeout = await setTimeout(() => {
 			dispatch({
 				type: 'SET',
 				data: '',
 			})
 		}, seconds * 1000)
-		dispatch({
-			type: 'SET',
-			data: msg,
-		})
 	}
 }
 
