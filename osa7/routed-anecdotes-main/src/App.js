@@ -1,5 +1,11 @@
 import React, { useState } from 'react'
-import { useRouteMatch, Switch, Route, Link } from 'react-router-dom'
+import {
+	useRouteMatch,
+	Switch,
+	Route,
+	Link,
+	useHistory,
+} from 'react-router-dom'
 
 const Menu = () => {
 	const padding = {
@@ -26,8 +32,8 @@ const AnecdoteList = ({ anecdotes }) => (
 		<ul>
 			{anecdotes.map(anecdote => (
 				<li key={anecdote.id}>
-          <Link to={`/anecdotes/${anecdote.id}`}>{anecdote.content}</Link>
-        </li>
+					<Link to={`/anecdotes/${anecdote.id}`}>{anecdote.content}</Link>
+				</li>
 			))}
 		</ul>
 	</div>
@@ -75,6 +81,7 @@ const CreateNew = props => {
 	const [content, setContent] = useState('')
 	const [author, setAuthor] = useState('')
 	const [info, setInfo] = useState('')
+	const history = useHistory()
 
 	const handleSubmit = e => {
 		e.preventDefault()
@@ -84,6 +91,11 @@ const CreateNew = props => {
 			info,
 			votes: 0,
 		})
+		props.setNotification(`a new anecdote ${content} created!`)
+		setTimeout(() => {
+			props.setNotification('')
+		}, 10000)
+		history.push('/')
 	}
 
 	return (
@@ -114,7 +126,7 @@ const CreateNew = props => {
 						onChange={e => setInfo(e.target.value)}
 					/>
 				</div>
-				<button>create</button>
+				<button type="submit">create</button>
 			</form>
 		</div>
 	)
@@ -148,9 +160,7 @@ const App = () => {
 	])
 
 	const match = useRouteMatch('/anecdotes/:id')
-	const anecdote = match
-		? anecdotes.find(a => a.id === match.params.id)
-		: null
+	const anecdote = match ? anecdotes.find(a => a.id === match.params.id) : null
 
 	const [notification, setNotification] = useState('')
 
@@ -176,12 +186,13 @@ const App = () => {
 		<div>
 			<h1>Software anecdotes</h1>
 			<Menu />
+			<p>{notification}</p>
 			<Switch>
 				<Route path="/anecdotes/:id">
 					<Anecdote anecdote={anecdote} />
 				</Route>
 				<Route path="/create">
-					<CreateNew addNew={addNew} />
+					<CreateNew addNew={addNew} setNotification={setNotification} />
 				</Route>
 				<Route path="/about">
 					<About />
