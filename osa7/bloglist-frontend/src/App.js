@@ -5,29 +5,18 @@ import NewBlogForm from './components/NewBlogForm'
 import Notification from './components/Notification'
 import Togglable from './components/Togglable'
 import Blog from './components/Blog'
-import blogsService from './services/blogs'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { notify } from './reducers/notificationReducer'
+import { initializeBlogs, createBlog, likeBlog, removeBlog } from './reducers/blogsReducer'
 
 const App = () => {
 	const dispatch = useDispatch()
+	const blogs = useSelector(state => state.blogs)
 
-	const [blogs, setBlogs] = useState([])
 	const [user, setUser] = useState(null)
 
 	useEffect(() => {
-		blogsService.getAll().then(blogs => {
-			blogs.sort((a, b) => {
-				if (a.likes > b.likes) {
-					return -1
-				}
-				if (a.likes < b.likes) {
-					return 1
-				}
-				return 0
-			})
-			setBlogs(blogs)
-		})
+		dispatch(initializeBlogs())
 	}, [])
 
 	useEffect(() => {
@@ -40,50 +29,34 @@ const App = () => {
 
 	const createNewBlog = async blog => {
 		try {
-			const newBlog = await blogsService.create(blog)
-			setBlogs(blogs.concat(newBlog.data))
+			await dispatch(createBlog(blog))
 			blogFormRef.current.toggleVisibility()
-			dispatch(notify(`${newBlog.data.title} by ${newBlog.data.author} added`, 'success', 5))
+			dispatch(
+				notify(
+					`${blog.title} by ${blog.author} added`,
+					'success',
+					5
+				)
+			)
 		} catch (error) {
 			dispatch(notify(error.message, 'error', 5))
 		}
 	}
 
 	const handleLike = async blog => {
-		blog.likes += 1
-		const updatedBlog = await blogsService.update(blog.id, blog)
-		const updatedBlogs = blogs.map(b =>
-			updatedBlog.id === b.id ? updatedBlog : b
-		)
-		updatedBlogs.sort((a, b) => {
-			if (a.likes > b.likes) {
-				return -1
-			}
-			if (a.likes < b.likes) {
-				return 1
-			}
-			return 0
-		})
-		setBlogs(updatedBlogs)
+		dispatch(likeBlog(blog))
 	}
 
 	const handleDelete = async blog => {
 		if (window.confirm(`Remove ${blog.title} by ${blog.author}`)) {
-			const response = await blogsService.remove(blog.id)
-			console.log(response)
-			const updatedBlogs = blogs.filter(b => blog.id !== b.id)
-			setBlogs(updatedBlogs)
+			dispatch(removeBlog(blog.id))
 		}
 	}
 
 	const blogFormRef = useRef()
 
 	if (user === null) {
-		return (
-			<LoginForm
-				setUser={setUser}
-			/>
-		)
+		return <LoginForm setUser={setUser} />
 	}
 
 	return (

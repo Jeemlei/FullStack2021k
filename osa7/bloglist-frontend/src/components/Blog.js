@@ -23,14 +23,14 @@ const Blog = ({ blog, handleLike, handleDelete }) => {
 			<div style={titleView} className="titleView">
 				{blog.title} {blog.author}{' '}
 				<button
-					id={`show-${blog.title.replace(/\s/g, '')}`}
+					id={`show-${blog.id}`}
 					onClick={() => setView(true)}
 				>
 					show
 				</button>
 			</div>
 			<div
-				id={`${blog.title.replace(/\s/g, '')}`}
+				id={`${blog.id}`}
 				style={fullView}
 				className="fullView"
 			>
@@ -41,7 +41,7 @@ const Blog = ({ blog, handleLike, handleDelete }) => {
 				<br />
 				likes {blog.likes}{' '}
 				<button
-					id={`like-${blog.title.replace(/\s/g, '')}`}
+					id={`like-${blog.id}`}
 					onClick={() => handleLike(blog)}
 				>
 					like
@@ -51,7 +51,7 @@ const Blog = ({ blog, handleLike, handleDelete }) => {
 				{blog.user.username === user.username && (
 					<div>
 						<button
-							id={`delete-${blog.title.replace(/\s/g, '')}`}
+							id={`delete-${blog.id}`}
 							onClick={() => handleDelete(blog)}
 						>
 							delete
