@@ -6,6 +6,7 @@ import Notification from './components/Notification'
 import UsersList from './components/UsersList'
 import Togglable from './components/Togglable'
 import Blog from './components/Blog'
+import User from './components/User'
 import { useDispatch, useSelector } from 'react-redux'
 import { notify } from './reducers/notificationReducer'
 import {
@@ -16,7 +17,11 @@ import {
 } from './reducers/blogsReducer'
 import { setUser } from './reducers/userReducer'
 import { updateUsersList } from './reducers/usersReducer'
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
+import {
+	BrowserRouter as Router,
+	Switch,
+	Route,
+} from 'react-router-dom'
 
 const App = () => {
 	const dispatch = useDispatch()
@@ -72,6 +77,9 @@ const App = () => {
 			<LogoutForm />
 
 			<Switch>
+				<Route path="/users/:id">
+					<User />
+				</Route>
 				<Route path="/users">
 					<UsersList />
 				</Route>
