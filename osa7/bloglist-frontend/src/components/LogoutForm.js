@@ -1,10 +1,13 @@
 import React from 'react'
-import loginService from '../services/login'
+import { useDispatch, useSelector } from 'react-redux'
+import { logout } from '../reducers/userReducer'
 
-const LogoutForm = ({ user, setUser }) => {
+const LogoutForm = () => {
+	const dispatch = useDispatch()
+	const user = useSelector(state => state.user)
+
 	const handleLogout = () => {
-		loginService.logout()
-		setUser(null)
+		dispatch(logout())
 	}
 
 	return (

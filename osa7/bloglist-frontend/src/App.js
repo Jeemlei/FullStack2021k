@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useEffect, useRef } from 'react'
 import LoginForm from './components/LoginForm'
 import LogoutForm from './components/LogoutForm'
 import NewBlogForm from './components/NewBlogForm'
@@ -8,12 +8,12 @@ import Blog from './components/Blog'
 import { useDispatch, useSelector } from 'react-redux'
 import { notify } from './reducers/notificationReducer'
 import { initializeBlogs, createBlog, likeBlog, removeBlog } from './reducers/blogsReducer'
+import { setUser } from './reducers/userReducer'
 
 const App = () => {
 	const dispatch = useDispatch()
 	const blogs = useSelector(state => state.blogs)
-
-	const [user, setUser] = useState(null)
+	const user = useSelector(state => state.user)
 
 	useEffect(() => {
 		dispatch(initializeBlogs())
@@ -23,7 +23,7 @@ const App = () => {
 		const loggedUserString = window.localStorage.getItem('loggedUserDetails')
 		if (loggedUserString) {
 			const userDetails = JSON.parse(loggedUserString)
-			setUser(userDetails)
+			dispatch(setUser(userDetails))
 		}
 	}, [])
 
@@ -56,14 +56,14 @@ const App = () => {
 	const blogFormRef = useRef()
 
 	if (user === null) {
-		return <LoginForm setUser={setUser} />
+		return <LoginForm />
 	}
 
 	return (
 		<div>
 			<h2>blogs</h2>
 			<Notification />
-			<LogoutForm user={user} setUser={setUser} />
+			<LogoutForm />
 			<Togglable
 				buttonLabel={'new note'}
 				hideLabel={'cancel'}
