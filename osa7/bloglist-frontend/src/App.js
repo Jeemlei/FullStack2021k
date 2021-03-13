@@ -62,6 +62,11 @@ const App = () => {
 		return <LoginForm />
 	}
 
+	const navStyle = {
+		padding: 5,
+		backgroundColor: '#d3d3d3',
+	}
+
 	const blogStyle = {
 		padding: 10,
 		marginTop: 5,
@@ -71,9 +76,14 @@ const App = () => {
 
 	return (
 		<Router>
+			<div style={navStyle}>
+				<Link to="/blogs">blogs</Link>{' '}
+				<Link to="/users">users</Link>{' '}
+				<LogoutForm />
+			</div>
+
 			<h2>blogs</h2>
 			<Notification />
-			<LogoutForm />
 
 			<Switch>
 				<Route path="/users/:id">
@@ -96,9 +106,7 @@ const App = () => {
 					<div id="blogs">
 						{blogs.map(blog => (
 							<div key={blog.id} style={blogStyle}>
-								<Link to={`/blogs/${blog.id}`}>
-									{blog.title}
-								</Link>
+								<Link to={`/blogs/${blog.id}`}>{blog.title}</Link>
 							</div>
 						))}
 					</div>
