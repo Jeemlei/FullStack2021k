@@ -5,23 +5,18 @@ import NewBlogForm from './components/NewBlogForm'
 import Notification from './components/Notification'
 import UsersList from './components/UsersList'
 import Togglable from './components/Togglable'
-import Blog from './components/Blog'
 import User from './components/User'
+import Blog from './components/Blog'
 import { useDispatch, useSelector } from 'react-redux'
 import { notify } from './reducers/notificationReducer'
 import {
 	initializeBlogs,
 	createBlog,
-	likeBlog,
-	removeBlog,
+	//removeBlog,
 } from './reducers/blogsReducer'
 import { setUser } from './reducers/userReducer'
 import { updateUsersList } from './reducers/usersReducer'
-import {
-	BrowserRouter as Router,
-	Switch,
-	Route,
-} from 'react-router-dom'
+import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom'
 
 const App = () => {
 	const dispatch = useDispatch()
@@ -54,20 +49,24 @@ const App = () => {
 		}
 	}
 
-	const handleLike = async blog => {
-		dispatch(likeBlog(blog))
-	}
-
+	/*
 	const handleDelete = async blog => {
 		if (window.confirm(`Remove ${blog.title} by ${blog.author}`)) {
 			dispatch(removeBlog(blog.id))
 		}
-	}
+	}*/
 
 	const blogFormRef = useRef()
 
 	if (user === null) {
 		return <LoginForm />
+	}
+
+	const blogStyle = {
+		padding: 10,
+		marginTop: 5,
+		border: 'solid',
+		borderWidth: 1,
 	}
 
 	return (
@@ -83,9 +82,12 @@ const App = () => {
 				<Route path="/users">
 					<UsersList />
 				</Route>
+				<Route path="/blogs/:id">
+					<Blog />
+				</Route>
 				<Route path="/">
 					<Togglable
-						buttonLabel={'new note'}
+						buttonLabel={'create new'}
 						hideLabel={'cancel'}
 						ref={blogFormRef}
 					>
@@ -93,12 +95,11 @@ const App = () => {
 					</Togglable>
 					<div id="blogs">
 						{blogs.map(blog => (
-							<Blog
-								key={blog.id}
-								blog={blog}
-								handleLike={handleLike}
-								handleDelete={handleDelete}
-							/>
+							<div key={blog.id} style={blogStyle}>
+								<Link to={`/blogs/${blog.id}`}>
+									{blog.title}
+								</Link>
+							</div>
 						))}
 					</div>
 				</Route>

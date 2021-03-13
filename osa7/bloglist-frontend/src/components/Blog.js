@@ -1,72 +1,33 @@
-import React, { useState } from 'react'
-import PropTypes from 'prop-types'
+import React from 'react'
+import { useParams } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
+import { likeBlog } from '../reducers/blogsReducer'
 
-const Blog = ({ blog, handleLike, handleDelete }) => {
-	const [view, setView] = useState(false)
+const BlogDetails = () => {
+	const id = useParams().id
+	const blog = useSelector(state => state.blogs).find(b => b.id === id)
+	if (!blog) {
+		return <h2>404 blog not found</h2>
+	}
 
-	const user = window.localStorage.getItem('loggedUserDetails')
-		? JSON.parse(window.localStorage.getItem('loggedUserDetails'))
-		: { username: '' }
-
-	const titleView = { display: view ? 'none' : '' }
-	const fullView = { display: view ? '' : 'none' }
-
-	const blogStyle = {
-		padding: 10,
-		marginTop: 5,
-		border: 'solid',
-		borderWidth: 1,
+	const dispatch = useDispatch()
+	const handleLike = async blog => {
+		dispatch(likeBlog(blog))
 	}
 
 	return (
-		<div style={blogStyle}>
-			<div style={titleView} className="titleView">
-				{blog.title} {blog.author}{' '}
-				<button
-					id={`show-${blog.id}`}
-					onClick={() => setView(true)}
-				>
-					show
-				</button>
-			</div>
-			<div
-				id={`${blog.id}`}
-				style={fullView}
-				className="fullView"
-			>
-				{blog.title} {blog.author}{' '}
-				<button onClick={() => setView(false)}>hide</button>
-				<br />
-				{blog.url}
-				<br />
-				likes {blog.likes}{' '}
-				<button
-					id={`like-${blog.id}`}
-					onClick={() => handleLike(blog)}
-				>
+		<div>
+			<h2>{blog.title}</h2>
+			<a href={blog.url}>{blog.url}</a>
+			<div>
+				{blog.likes} likes{' '}
+				<button id={`like-${blog.id}`} onClick={() => handleLike(blog)}>
 					like
 				</button>
-				<br />
-				{blog.user.name}
-				{blog.user.username === user.username && (
-					<div>
-						<button
-							id={`delete-${blog.id}`}
-							onClick={() => handleDelete(blog)}
-						>
-							delete
-						</button>
-					</div>
-				)}
 			</div>
+			<div>added by {blog.user.name}</div>
 		</div>
 	)
 }
 
-Blog.propTypes = {
-	blog: PropTypes.object.isRequired,
-	handleLike: PropTypes.func.isRequired,
-	handleDelete: PropTypes.func.isRequired,
-}
-
-export default Blog
+export default BlogDetails

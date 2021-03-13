@@ -61,7 +61,10 @@ export const createBlog = blog => {
 export const likeBlog = blog => {
 	return async dispatch => {
 		blog.likes += 1
-		const updatedBlog = await (await blogsService.update(blog.id, blog)).data
+		const response = await blogsService.update(blog.id, blog)
+		const updatedBlog = await (await blogsService.getAll()).find(
+			blog => blog.id === response.data.id
+		)
 		dispatch({
 			type: 'LIKE',
 			data: updatedBlog,
@@ -72,7 +75,7 @@ export const likeBlog = blog => {
 export const removeBlog = id => {
 	return async dispatch => {
 		const response = await blogsService.remove(id)
-        console.log(response)
+		console.log(response)
 		dispatch({
 			type: 'DELETE',
 			data: id,
