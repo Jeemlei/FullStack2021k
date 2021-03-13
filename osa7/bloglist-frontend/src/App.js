@@ -3,12 +3,20 @@ import LoginForm from './components/LoginForm'
 import LogoutForm from './components/LogoutForm'
 import NewBlogForm from './components/NewBlogForm'
 import Notification from './components/Notification'
+import UsersList from './components/UsersList'
 import Togglable from './components/Togglable'
 import Blog from './components/Blog'
 import { useDispatch, useSelector } from 'react-redux'
 import { notify } from './reducers/notificationReducer'
-import { initializeBlogs, createBlog, likeBlog, removeBlog } from './reducers/blogsReducer'
+import {
+	initializeBlogs,
+	createBlog,
+	likeBlog,
+	removeBlog,
+} from './reducers/blogsReducer'
 import { setUser } from './reducers/userReducer'
+import { updateUsersList } from './reducers/usersReducer'
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 
 const App = () => {
 	const dispatch = useDispatch()
@@ -27,17 +35,15 @@ const App = () => {
 		}
 	}, [])
 
+	useEffect(() => {
+		dispatch(updateUsersList())
+	}, [blogs, user])
+
 	const createNewBlog = async blog => {
 		try {
 			await dispatch(createBlog(blog))
 			blogFormRef.current.toggleVisibility()
-			dispatch(
-				notify(
-					`${blog.title} by ${blog.author} added`,
-					'success',
-					5
-				)
-			)
+			dispatch(notify(`${blog.title} by ${blog.author} added`, 'success', 5))
 		} catch (error) {
 			dispatch(notify(error.message, 'error', 5))
 		}
@@ -60,28 +66,36 @@ const App = () => {
 	}
 
 	return (
-		<div>
+		<Router>
 			<h2>blogs</h2>
 			<Notification />
 			<LogoutForm />
-			<Togglable
-				buttonLabel={'new note'}
-				hideLabel={'cancel'}
-				ref={blogFormRef}
-			>
-				<NewBlogForm createNewBlog={createNewBlog} />
-			</Togglable>
-			<div id="blogs">
-				{blogs.map(blog => (
-					<Blog
-						key={blog.id}
-						blog={blog}
-						handleLike={handleLike}
-						handleDelete={handleDelete}
-					/>
-				))}
-			</div>
-		</div>
+
+			<Switch>
+				<Route path="/users">
+					<UsersList />
+				</Route>
+				<Route path="/">
+					<Togglable
+						buttonLabel={'new note'}
+						hideLabel={'cancel'}
+						ref={blogFormRef}
+					>
+						<NewBlogForm createNewBlog={createNewBlog} />
+					</Togglable>
+					<div id="blogs">
+						{blogs.map(blog => (
+							<Blog
+								key={blog.id}
+								blog={blog}
+								handleLike={handleLike}
+								handleDelete={handleDelete}
+							/>
+						))}
+					</div>
+				</Route>
+			</Switch>
+		</Router>
 	)
 }
 
