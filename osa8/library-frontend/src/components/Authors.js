@@ -1,25 +1,6 @@
 import React, { useState, useEffect } from 'react'
-import { gql, useMutation, useQuery } from '@apollo/client'
-
-const ALL_AUTHORS = gql`
-	query {
-		allAuthors {
-			name
-			born
-			bookCount
-		}
-	}
-`
-
-const UPDATE_AUTHOR = gql`
-	mutation updateAuthor($name: String!, $year: Int!) {
-		editAuthor(name: $name, setBornTo: $year) {
-			name
-			born
-			bookCount
-		}
-	}
-`
+import { useMutation, useQuery } from '@apollo/client'
+import { ALL_AUTHORS, UPDATE_AUTHOR } from '../queries'
 
 const Authors = props => {
 	const result = useQuery(ALL_AUTHORS)
@@ -31,8 +12,11 @@ const Authors = props => {
 	useEffect(() => {
 		if (result.data) {
 			setAuthors(result.data.allAuthors)
+			if (!name) {
+				setName(result.data.allAuthors[0].name)
+			}
 		}
-	}, [result])
+	}, [result]) // eslint-disable-line
 
 	const [updateAuthor] = useMutation(UPDATE_AUTHOR, {
 		refetchQueries: [{ query: ALL_AUTHORS }],
@@ -48,7 +32,6 @@ const Authors = props => {
 		const year = parseInt(born, 10)
 		updateAuthor({ variables: { name, year } })
 
-		setName('')
 		setBorn('')
 	}
 
@@ -63,7 +46,7 @@ const Authors = props => {
 						<th>books</th>
 					</tr>
 					{authors.map(a => (
-						<tr key={a.name}>
+						<tr key={a.id}>
 							<td>{a.name}</td>
 							<td>{a.born}</td>
 							<td>{a.bookCount}</td>
@@ -77,7 +60,9 @@ const Authors = props => {
 					name
 					<select value={name} onChange={({ target }) => setName(target.value)}>
 						{authors.map(a => (
-							<option value={a.name}>{a.name}</option>
+							<option key={a.id} value={a.name}>
+								{a.name}
+							</option>
 						))}
 					</select>
 				</div>
