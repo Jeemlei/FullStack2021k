@@ -1,14 +1,35 @@
-import React, { useState } from 'react'
-import { useApolloClient } from '@apollo/client'
+import React, { useState, useEffect } from 'react'
+import { useApolloClient, useQuery } from '@apollo/client'
+import { ALL_BOOKS } from './queries'
 import LoginForm from './components/LoginForm'
 import Authors from './components/Authors'
 import Books from './components/Books'
 import NewBook from './components/NewBook'
+import Recommendations from './components/Recommendations'
 
 const App = () => {
+	const result = useQuery(ALL_BOOKS)
+	const [books, setBooks] = useState([])
+	const [genres, setGenres] = useState([])
 	const [page, setPage] = useState('authors')
 	const [token, setToken] = useState(localStorage.getItem('user-token'))
 	const client = useApolloClient()
+
+	useEffect(() => {
+		if (result.data) {
+			setBooks(result.data.allBooks)
+			setGenres(
+				result.data.allBooks.reduce((allGenres, b) => {
+					b.genres.forEach(booksGenre => {
+						if (!allGenres.includes(booksGenre)) {
+							allGenres = allGenres.concat(booksGenre)
+						}
+					})
+					return allGenres
+				}, [])
+			)
+		}
+	}, [result])
 
 	let addBookButton
 	if (!token) {
@@ -33,12 +54,13 @@ const App = () => {
 			<div>
 				<button onClick={() => setPage('authors')}>authors</button>
 				<button onClick={() => setPage('books')}>books</button>
+				<button onClick={() => setPage('recommendations')}>recommend</button>
 				{addBookButton}
 			</div>
 
 			<Authors show={page === 'authors'} />
 
-			<Books show={page === 'books'} />
+			<Books show={page === 'books'} books={books} genres={genres} />
 
 			<NewBook show={page === 'add'} setPage={setPage} />
 
@@ -47,6 +69,8 @@ const App = () => {
 				setToken={setToken}
 				setPage={setPage}
 			/>
+
+			<Recommendations show={page === 'recommendations'} books={books} />
 		</div>
 	)
 }
