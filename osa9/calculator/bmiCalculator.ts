@@ -17,7 +17,7 @@ const parseMeasurements = (args: Array<string>): Measurements => {
 	}
 };
 
-const calculateBmi = (height: number, weight: number): string => {
+export const calculateBmi = (height: number, weight: number): string => {
 	const bmi: number = weight / (height / 100) ** 2;
 
 	if (bmi >= 40) {
@@ -49,5 +49,3 @@ try {
 	}
 	console.log(errorMessage);
 }
-
-export default calculateBmi;

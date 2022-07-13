@@ -41,7 +41,7 @@ const calculateRating = (average: number, target: number): Rating => {
 	}
 };
 
-const calculateExercises = (
+export const calculateExercises = (
 	dailyHours: Array<number>,
 	target: number
 ): ExerciseInfo => {
