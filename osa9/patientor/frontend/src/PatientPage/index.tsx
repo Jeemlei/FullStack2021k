@@ -3,7 +3,7 @@ import axios from 'axios';
 import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { apiBaseUrl } from '../constants';
-import { useStateValue } from '../state';
+import { updatePatient, useStateValue } from '../state';
 import { Gender, Patient } from '../types';
 import FemaleIcon from '@mui/icons-material/Female';
 import MaleIcon from '@mui/icons-material/Male';
@@ -19,7 +19,7 @@ const PatientPage = () => {
 					const { data: patientFromApi } = await axios.get<Patient>(
 						`${apiBaseUrl}/patients/${id}`
 					);
-					dispatch({ type: 'UPDATE_PATIENT', payload: patientFromApi });
+					dispatch(updatePatient(patientFromApi));
 					setPatient(patientFromApi);
 				} catch (e) {
 					console.error(e);
