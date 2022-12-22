@@ -35,6 +35,7 @@ const getPatientsWithoutSSN = (): Array<NonSensitivePatientInfo> => {
 		dateOfBirth,
 		gender,
 		occupation,
+		entries: [],
 	}));
 };
 
@@ -47,8 +48,15 @@ const addPatient = (patientEntry: newPatientEntry): Patient => {
 	return newPatient;
 };
 
+const getPatientById = (id: string): Patient => {
+	const patient = patients.find(p => p.id === id);
+	if (!patient) throw new Error('Patient not found!');
+	return { ...patient, entries: [] };
+};
+
 export default {
 	getPatients,
 	getPatientsWithoutSSN,
 	addPatient,
+	getPatientById,
 };
