@@ -53,7 +53,7 @@ const addPatient = (patientEntry: newPatientEntry): Patient => {
 const getPatientById = (id: string): Patient => {
 	const patient = patients.find(p => p.id === id);
 	if (!patient) throw new Error('Patient not found!');
-	return { ...patient, entries: [] };
+	return { ...patient };
 };
 
 export default {

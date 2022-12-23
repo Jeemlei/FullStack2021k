@@ -34,14 +34,32 @@ const PatientPage = () => {
 	if (!patient) return <p>loading...</p>;
 
 	return (
-		<div style={{marginTop: '1rem'}}>
+		<div style={{ marginTop: '1rem' }}>
 			<Typography variant="h5">
 				{patient.name}{' '}
 				{(patient.gender === Gender.Female && <FemaleIcon />) ||
 					(patient.gender === Gender.Male && <MaleIcon />)}
 			</Typography>
-			<p style={{marginBottom: 0}}>ssn: {patient.ssn}</p>
-			<p style={{margin: 0}}>occupation: {patient.occupation}</p>
+			<p style={{ marginBottom: 0 }}>ssn: {patient.ssn}</p>
+			<p style={{ marginTop: 0 }}>occupation: {patient.occupation}</p>
+			<Typography variant="h6">enrties</Typography>
+			{patient.entries.map(entry => {
+				return (
+					<div key={entry.id}>
+						<p>
+							{entry.date} <i>{entry.description}</i>
+						</p>
+						<ul>
+							{entry.diagnosisCodes &&
+								entry.diagnosisCodes.map(code => (
+									<li key={code}>
+										{code} {state.diagnoses[code].name}
+									</li>
+								))}
+						</ul>
+					</div>
+				);
+			})}
 		</div>
 	);
 };
