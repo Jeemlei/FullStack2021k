@@ -1,4 +1,4 @@
-import patientsData from '../data/patients.json';
+import patientsData from '../data/patients';
 import {
 	Patient,
 	NonSensitivePatientInfo,
@@ -29,14 +29,16 @@ const getPatients = () => {
 };
 
 const getPatientsWithoutSSN = (): Array<NonSensitivePatientInfo> => {
-	return patients.map(({ id, name, dateOfBirth, gender, occupation }) => ({
-		id,
-		name,
-		dateOfBirth,
-		gender,
-		occupation,
-		entries: [],
-	}));
+	return patients.map(
+		({ id, name, dateOfBirth, gender, occupation, entries }) => ({
+			id,
+			name,
+			dateOfBirth,
+			gender,
+			occupation,
+			entries,
+		})
+	);
 };
 
 const addPatient = (patientEntry: newPatientEntry): Patient => {
