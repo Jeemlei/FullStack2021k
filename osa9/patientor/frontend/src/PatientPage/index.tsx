@@ -7,6 +7,7 @@ import { updatePatient, useStateValue } from '../state';
 import { Gender, Patient } from '../types';
 import FemaleIcon from '@mui/icons-material/Female';
 import MaleIcon from '@mui/icons-material/Male';
+import EntryDetails from './EntryDetails';
 
 const PatientPage = () => {
 	const { id } = useParams<{ id: string }>();
@@ -44,21 +45,7 @@ const PatientPage = () => {
 			<p style={{ marginTop: 0 }}>occupation: {patient.occupation}</p>
 			<Typography variant="h6">enrties</Typography>
 			{patient.entries.map(entry => {
-				return (
-					<div key={entry.id}>
-						<p>
-							{entry.date} <i>{entry.description}</i>
-						</p>
-						<ul>
-							{entry.diagnosisCodes &&
-								entry.diagnosisCodes.map(code => (
-									<li key={code}>
-										{code} {state.diagnoses[code].name}
-									</li>
-								))}
-						</ul>
-					</div>
-				);
+				return <EntryDetails key={entry.id} entry={entry} />;
 			})}
 		</div>
 	);
