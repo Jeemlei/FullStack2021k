@@ -1,5 +1,5 @@
 import React from 'react';
-import { Entry } from '../../types';
+import { Entry, EntryType } from '../../types';
 import { assertNever } from '../../utils';
 import HealthCheckDetails from './HealthCheckDetails';
 import HospitalEntryDetails from './HospitalEntryDetails';
@@ -16,19 +16,19 @@ const style = {
 
 const EntryDetails = ({ entry }: { entry: Entry }) => {
 	switch (entry.type) {
-		case 'Hospital':
+		case EntryType.Hospital:
 			return (
 				<div style={style}>
 					<HospitalEntryDetails entry={entry} />
 				</div>
 			);
-		case 'OccupationalHealthcare':
+		case EntryType.Occupational:
 			return (
 				<div style={style}>
 					<OccupationalEntryDetails entry={entry} />
 				</div>
 			);
-		case 'HealthCheck':
+		case EntryType.Check:
 			return (
 				<div style={style}>
 					<HealthCheckDetails entry={entry} />

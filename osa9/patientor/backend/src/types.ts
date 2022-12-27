@@ -12,6 +12,12 @@ interface BaseEntry {
 	diagnosisCodes?: Array<Diagnosis['code']>;
 }
 
+export enum EntryType {
+	Hospital = 'Hospital',
+	Occupational = 'OccupationalHealthcare',
+	Check = 'HealthCheck',
+}
+
 export enum HealthCheckRating {
 	'Healthy' = 0,
 	'LowRisk' = 1,
@@ -19,16 +25,16 @@ export enum HealthCheckRating {
 	'CriticalRisk' = 3,
 }
 
-interface HospitalEntry extends BaseEntry {
-	type: 'Hospital';
+export interface HospitalEntry extends BaseEntry {
+	type: EntryType.Hospital;
 	discharge: {
 		date: `${number}-${number}-${number}`;
 		criteria: string;
 	};
 }
 
-interface OccupationalHealthcareEntry extends BaseEntry {
-	type: 'OccupationalHealthcare';
+export interface OccupationalHealthcareEntry extends BaseEntry {
+	type: EntryType.Occupational;
 	employerName: string;
 	sickLeave?: {
 		startDate: `${number}-${number}-${number}`;
@@ -36,8 +42,8 @@ interface OccupationalHealthcareEntry extends BaseEntry {
 	};
 }
 
-interface HealthCheckEntry extends BaseEntry {
-	type: 'HealthCheck';
+export interface HealthCheckEntry extends BaseEntry {
+	type: EntryType.Check;
 	healthCheckRating: HealthCheckRating;
 }
 
@@ -45,6 +51,21 @@ export type Entry =
 	| HospitalEntry
 	| OccupationalHealthcareEntry
 	| HealthCheckEntry;
+
+export type NewEntryValues = {
+	description: string;
+	date: `${number}-${number}-${number}`;
+	specialist: string;
+	diagnosisCodes: Array<string>;
+	type: EntryType;
+	dischargeDate: `${number}-${number}-${number}`;
+	dischargeCriteria: string;
+	employerName: string;
+	sickLeave: boolean;
+	sickLeaveStartDate: `${number}-${number}-${number}`;
+	sickLeaveEndDate: `${number}-${number}-${number}`;
+	healthCheckRating: HealthCheckRating;
+};
 
 export interface Patient {
 	id: string;
