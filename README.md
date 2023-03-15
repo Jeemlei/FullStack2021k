@@ -6,6 +6,6 @@ Kurssisivu: [fullstack-hy.github.io](https://fullstack-hy.github.io/)
 
 Puhelinluettelo: https://pure-ravine-35803.herokuapp.com/
 
-# Kurssin laajennus: Osat 8-11
+# Kurssin laajennus: Osat 8-13
 
 Kurssisivu: [fullstackopen.com](https://fullstackopen.com/)
