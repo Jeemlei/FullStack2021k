@@ -1,10 +1,14 @@
 import Constants from 'expo-constants'
-import { Text, StyleSheet, View } from 'react-native'
+import { Pressable, StyleSheet, View } from 'react-native'
+import theme from '../theme'
+import AppBar from './AppBar'
+import AppBarTab from './AppBarTab'
 import RepositoryList from './RepositoryList'
+import Text from './Text'
 
 const styles = StyleSheet.create({
 	container: {
-		marginTop: Constants.statusBarHeight,
+		backgroundColor: theme.colors.secondary,
 		flexGrow: 1,
 		flexShrink: 1,
 	},
@@ -13,7 +17,12 @@ const styles = StyleSheet.create({
 const Main = () => {
 	return (
 		<View style={styles.container}>
-			<Text>Rate Repository Application</Text>
+			<AppBar>
+				<AppBarTab
+					onPress={() => console.log('Repository text pressed')}
+					text={'Repositories'}
+				/>
+			</AppBar>
 			<RepositoryList />
 		</View>
 	)
