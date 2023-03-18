@@ -6,9 +6,9 @@ const AppBarTab = ({ onPress, text }) => {
 		<Pressable onPress={onPress}>
 			<Text
 				fontSize="heading"
-				color="secondary"
+				color="negative"
 				fontWeight="bold"
-				style={{ padding: 10 }}
+				style={{ padding: 15, }}
 			>
 				{text}
 			</Text>

@@ -1,10 +1,8 @@
-import Constants from 'expo-constants'
-import { Pressable, StyleSheet, View } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 import theme from '../theme'
 import AppBar from './AppBar'
 import AppBarTab from './AppBarTab'
 import RepositoryList from './RepositoryList'
-import Text from './Text'
 
 const styles = StyleSheet.create({
 	container: {
