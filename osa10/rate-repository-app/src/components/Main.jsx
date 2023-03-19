@@ -1,8 +1,11 @@
 import { StyleSheet, View } from 'react-native'
+import { Route, Routes, Navigate } from 'react-router-native'
+
 import theme from '../theme'
 import AppBar from './AppBar'
 import AppBarTab from './AppBarTab'
 import RepositoryList from './RepositoryList'
+import SignIn from './SignIn'
 
 const styles = StyleSheet.create({
 	container: {
@@ -16,12 +19,14 @@ const Main = () => {
 	return (
 		<View style={styles.container}>
 			<AppBar>
-				<AppBarTab
-					onPress={() => console.log('Repository text pressed')}
-					text={'Repositories'}
-				/>
+				<AppBarTab text={'Repositories'} to={'/'} />
+				<AppBarTab text={'Sign in'} to={'/signin'} />
 			</AppBar>
-			<RepositoryList />
+			<Routes>
+				<Route path="/" element={<RepositoryList />} exact />
+				<Route path="/signin" element={<SignIn />} exact />
+				<Route path="*" element={<Navigate to="/" replace />} />
+			</Routes>
 		</View>
 	)
 }
