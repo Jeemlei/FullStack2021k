@@ -1,4 +1,4 @@
-import { View, StyleSheet, Pressable } from 'react-native'
+import { View, StyleSheet, ScrollView } from 'react-native'
 import Constants from 'expo-constants'
 import theme from '../theme'
 
@@ -12,7 +12,11 @@ const styles = StyleSheet.create({
 })
 
 const AppBar = ({ children }) => {
-	return <View style={styles.container}>{children}</View>
+	return (
+		<View style={styles.container}>
+			<ScrollView horizontal>{children}</ScrollView>
+		</View>
+	)
 }
 
 export default AppBar
