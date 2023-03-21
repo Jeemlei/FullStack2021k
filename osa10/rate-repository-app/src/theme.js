@@ -4,6 +4,7 @@ const theme = {
 		textSecondary: '#555555',
 		primary: '#0366d6',
 		secondary: '#e1e4e8',
+		error: '#CC3333'
 	},
 	fontSizes: {
 		heading: 18,
