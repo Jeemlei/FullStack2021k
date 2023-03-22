@@ -4,7 +4,7 @@ const theme = {
 		textSecondary: '#555555',
 		primary: '#0366d6',
 		secondary: '#e1e4e8',
-		error: '#CC3333'
+		error: '#CC3333',
 	},
 	fontSizes: {
 		heading: 18,
@@ -12,7 +12,9 @@ const theme = {
 		body: 14,
 	},
 	fonts: {
-		main: 'System',
+		android: 'Roboto',
+		ios: 'Arial',
+		default: 'System',
 	},
 	fontWeights: {
 		normal: '400',
