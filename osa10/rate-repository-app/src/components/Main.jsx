@@ -3,12 +3,14 @@ import { Route, Routes, Navigate } from 'react-router-native'
 
 import theme from '../theme'
 import AppBar from './AppBar'
-import AppBarTab, { SignOutButton } from './AppBarTab'
+import AppBarTab, { tabStyle } from './AppBarTab'
 import RepositoryList from './RepositoryList'
 import SignIn from './SignIn'
 import { ME } from '../graphql/queries'
 import { useApolloClient, useQuery } from '@apollo/client'
 import { useAuthStorage } from '../hooks/useAuthStorage'
+import Button from './Button'
+import RepositoryView from './RepositoryView'
 
 const styles = StyleSheet.create({
 	container: {
@@ -35,7 +37,9 @@ const Main = () => {
 			<AppBar>
 				<AppBarTab text={'Repositories'} to={'/'} />
 				{data && data.me ? (
-					<SignOutButton signOut={signOut} />
+					<Button onPress={signOut} style={tabStyle}>
+						Sign out
+					</Button>
 				) : (
 					<AppBarTab text={'Sign in'} to={'/signin'} />
 				)}
@@ -43,6 +47,7 @@ const Main = () => {
 			<Routes>
 				<Route path="/" element={<RepositoryList />} exact />
 				<Route path="/signin" element={<SignIn />} exact />
+				<Route path="/repository" element={<RepositoryView />} exact />
 				<Route path="*" element={<Navigate to="/" replace />} />
 			</Routes>
 		</View>

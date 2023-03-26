@@ -1,6 +1,7 @@
-import { FlatList, View, StyleSheet } from 'react-native'
+import { FlatList, View, StyleSheet, Pressable } from 'react-native'
 import RepositoryItem from './RepositoryItem'
 import useRepositories from '../hooks/useRepositories'
+import { useNavigate } from 'react-router-native'
 
 const styles = StyleSheet.create({
 	separator: {
@@ -11,6 +12,7 @@ const styles = StyleSheet.create({
 const ItemSeparator = () => <View style={styles.separator} />
 
 export const RepositoryListContainer = ({ repositories }) => {
+	const navigate = useNavigate()
 	const repositoryNodes = repositories
 		? repositories.edges.map(edge => edge.node)
 		: []
@@ -20,16 +22,26 @@ export const RepositoryListContainer = ({ repositories }) => {
 			data={repositoryNodes}
 			ItemSeparatorComponent={ItemSeparator}
 			renderItem={({ item }) => (
-				<RepositoryItem
-					name={item.fullName}
-					desc={item.description}
-					lang={item.language}
-					stars={item.stargazersCount}
-					forks={item.forksCount}
-					reviews={item.reviewCount}
-					rating={item.ratingAverage}
-					img={item.ownerAvatarUrl}
-				/>
+				<Pressable
+					onPress={() =>
+						navigate('/repository', {
+							state: {
+								id: item.id,
+							},
+						})
+					}
+				>
+					<RepositoryItem
+						name={item.fullName}
+						desc={item.description}
+						lang={item.language}
+						stars={item.stargazersCount}
+						forks={item.forksCount}
+						reviews={item.reviewCount}
+						rating={item.ratingAverage}
+						img={item.ownerAvatarUrl}
+					/>
+				</Pressable>
 			)}
 		/>
 	)

@@ -95,6 +95,7 @@ const RepositoryItem = ({
 	reviews,
 	rating,
 	img,
+	children,
 }) => {
 	return (
 		<View
@@ -108,6 +109,7 @@ const RepositoryItem = ({
 				reviews={reviews}
 				rating={rating}
 			/>
+			{children}
 		</View>
 	)
 }

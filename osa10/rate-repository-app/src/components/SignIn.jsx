@@ -6,20 +6,7 @@ import theme from '../theme'
 import * as yup from 'yup'
 import useSignIn from '../hooks/useSignIn'
 import { useNavigate } from 'react-router-native'
-
-const styles = StyleSheet.create({
-	button: {
-		height: 50,
-		margin: 10,
-		marginTop: 5,
-		borderRadius: 5,
-		backgroundColor: theme.colors.primary,
-		color: 'white',
-		fontWeight: 'bold',
-		textAlign: 'center',
-		textAlignVertical: 'center',
-	},
-})
+import Button, { buttonStyles } from './Button'
 
 const initialValues = {
 	username: '',
@@ -40,9 +27,9 @@ const SignInForm = ({ onSubmit }) => {
 				placeholder="Password"
 				secureTextEntry={true}
 			/>
-			<Pressable onPress={onSubmit}>
-				<Text style={styles.button}>Sign in</Text>
-			</Pressable>
+			<Button onPress={onSubmit} style={buttonStyles.basic}>
+				Sign in
+			</Button>
 		</View>
 	)
 }
