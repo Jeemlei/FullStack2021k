@@ -97,7 +97,10 @@ const RepositoryItem = ({
 	img,
 }) => {
 	return (
-		<View style={{ backgroundColor: 'white', padding: 5 }}>
+		<View
+			testID="repositoryItem"
+			style={{ backgroundColor: 'white', padding: 5 }}
+		>
 			<RepositoryInfo img={img} name={name} desc={desc} lang={lang} />
 			<RepositoryDetails
 				stars={stars}
