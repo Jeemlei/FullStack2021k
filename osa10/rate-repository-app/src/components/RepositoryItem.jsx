@@ -40,7 +40,7 @@ const styles = StyleSheet.create({
 	},
 })
 
-const RepositoryInfo = ({ img, name, desc, lang }) => {
+const RepositoryHeader = ({ img, name, desc, lang }) => {
 	return (
 		<View style={{ flexDirection: 'row' }}>
 			<Image source={{ uri: img }} style={styles.image} />
@@ -61,7 +61,7 @@ const RepositoryInfo = ({ img, name, desc, lang }) => {
 	)
 }
 
-const RepositoryDetails = ({ stars, forks, reviews, rating }) => {
+const RepositoryNumbers = ({ stars, forks, reviews, rating }) => {
 	const formatThousands = number =>
 		number >= 1000 ? `${(number / 1000).toFixed(1)}k` : `${number}`
 	return (
@@ -102,8 +102,8 @@ const RepositoryItem = ({
 			testID="repositoryItem"
 			style={{ backgroundColor: 'white', padding: 5 }}
 		>
-			<RepositoryInfo img={img} name={name} desc={desc} lang={lang} />
-			<RepositoryDetails
+			<RepositoryHeader img={img} name={name} desc={desc} lang={lang} />
+			<RepositoryNumbers
 				stars={stars}
 				forks={forks}
 				reviews={reviews}

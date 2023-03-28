@@ -1,5 +1,13 @@
 import { gql } from '@apollo/client'
 
+export const ME = gql`
+	query {
+		me {
+			id
+		}
+	}
+`
+
 export const GET_REPOSITORIES = gql`
 	query {
 		repositories {
@@ -31,14 +39,20 @@ export const GET_REPOSITORY_BY_ID = gql`
 			language
 			ownerAvatarUrl
 			url
-		}
-	}
-`
-
-export const ME = gql`
-	query {
-		me {
-			id
+			reviews {
+				edges {
+					node {
+						id
+						text
+						rating
+						createdAt
+						user {
+							id
+							username
+						}
+					}
+				}
+			}
 		}
 	}
 `
