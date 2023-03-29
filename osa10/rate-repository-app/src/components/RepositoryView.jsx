@@ -85,6 +85,7 @@ const ReviewItem = ({ review }) => {
 const RepositoryView = () => {
 	const location = useLocation()
 	const { data } = useQuery(GET_REPOSITORY_BY_ID, {
+		fetchPolicy: 'cache-and-network',
 		variables: { id: location.state.id },
 	})
 	const reviews = data

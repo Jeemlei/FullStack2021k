@@ -1,6 +1,5 @@
 import { StyleSheet, View } from 'react-native'
-import { Route, Routes, Navigate } from 'react-router-native'
-
+import { Route, Routes, Navigate, useNavigate } from 'react-router-native'
 import theme from '../theme'
 import AppBar from './AppBar'
 import AppBarTab, { tabStyle } from './AppBarTab'
@@ -11,6 +10,7 @@ import { useApolloClient, useQuery } from '@apollo/client'
 import { useAuthStorage } from '../hooks/useAuthStorage'
 import Button from './Button'
 import RepositoryView from './RepositoryView'
+import CreateReview from './CreateReview'
 
 const styles = StyleSheet.create({
 	container: {
@@ -23,13 +23,15 @@ const styles = StyleSheet.create({
 const Main = () => {
 	const authStorage = useAuthStorage()
 	const apolloClient = useApolloClient()
+	const navigate = useNavigate()
 	const { data } = useQuery(ME, {
-		fetchPolicy: "network-only",
+		fetchPolicy: 'network-only',
 	})
 
 	const signOut = async () => {
 		await authStorage.removeAccessToken()
 		await apolloClient.resetStore()
+		navigate('/')
 	}
 
 	return (
@@ -37,9 +39,12 @@ const Main = () => {
 			<AppBar>
 				<AppBarTab text={'Repositories'} to={'/'} />
 				{data && data.me ? (
-					<Button onPress={signOut} style={tabStyle}>
-						Sign out
-					</Button>
+					<>
+						<AppBarTab text={'Create a review'} to={'/review'} />
+						<Button onPress={signOut} style={tabStyle}>
+							Sign out
+						</Button>
+					</>
 				) : (
 					<AppBarTab text={'Sign in'} to={'/signin'} />
 				)}
@@ -48,6 +53,7 @@ const Main = () => {
 				<Route path="/" element={<RepositoryList />} exact />
 				<Route path="/signin" element={<SignIn />} exact />
 				<Route path="/repository" element={<RepositoryView />} exact />
+				<Route path="/review" element={<CreateReview />} exact />
 				<Route path="*" element={<Navigate to="/" replace />} />
 			</Routes>
 		</View>
