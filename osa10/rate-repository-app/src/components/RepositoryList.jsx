@@ -1,10 +1,12 @@
-import { FlatList, Pressable } from 'react-native'
+import { FlatList, Pressable, TextInput } from 'react-native'
 import RepositoryItem from './RepositoryItem'
 import useRepositories from '../hooks/useRepositories'
 import { useNavigate } from 'react-router-native'
 import ItemSeparator from './ItemSeparator'
 import { useState } from 'react'
+import { useDebounce } from 'use-debounce'
 import { Picker } from '@react-native-picker/picker'
+import { styles } from './FormikTextInput'
 
 export const RepositoryListContainer = ({ repositories }) => {
 	const navigate = useNavigate()
@@ -42,6 +44,17 @@ export const RepositoryListContainer = ({ repositories }) => {
 	)
 }
 
+const Searchbar = ({ setSearch }) => {
+	return (
+		<TextInput
+			elevation={10}
+			style={[styles.input, { backgroundColor: 'white', marginBottom: 0 }]}
+			placeholder="Search"
+			onChangeText={value => setSearch(value)}
+		/>
+	)
+}
+
 const OrderSelector = ({ orderRules, setOrderRules }) => {
 	return (
 		<Picker
@@ -62,14 +75,18 @@ const OrderSelector = ({ orderRules, setOrderRules }) => {
 }
 
 const RepositoryList = () => {
+	const [search, setSearch] = useState('')
+	const [debouncedSearch] = useDebounce(search, 500)
 	const [orderRules, setOrderRules] = useState('CREATED_AT DESC')
 	const { repositories } = useRepositories(
+		debouncedSearch,
 		orderRules.split(' ')[0],
 		orderRules.split(' ')[1]
 	)
 
 	return (
 		<>
+			<Searchbar setSearch={setSearch} />
 			<OrderSelector orderRules={orderRules} setOrderRules={setOrderRules} />
 			<RepositoryListContainer repositories={repositories} />
 		</>
