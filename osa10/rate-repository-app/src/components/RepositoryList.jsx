@@ -1,8 +1,10 @@
-import { FlatList, View, StyleSheet, Pressable } from 'react-native'
+import { FlatList, Pressable } from 'react-native'
 import RepositoryItem from './RepositoryItem'
 import useRepositories from '../hooks/useRepositories'
 import { useNavigate } from 'react-router-native'
 import ItemSeparator from './ItemSeparator'
+import { useState } from 'react'
+import { Picker } from '@react-native-picker/picker'
 
 export const RepositoryListContainer = ({ repositories }) => {
 	const navigate = useNavigate()
@@ -40,10 +42,38 @@ export const RepositoryListContainer = ({ repositories }) => {
 	)
 }
 
-const RepositoryList = () => {
-	const { repositories } = useRepositories()
+const OrderSelector = ({ orderRules, setOrderRules }) => {
+	return (
+		<Picker
+			selectedValue={orderRules}
+			onValueChange={itemValue => setOrderRules(itemValue)}
+		>
+			<Picker.Item label="Latest repositories" value={'CREATED_AT DESC'} />
+			<Picker.Item
+				label="Highest rated repositories"
+				value={'RATING_AVERAGE DESC'}
+			/>
+			<Picker.Item
+				label="Lowest rated repositories"
+				value={'RATING_AVERAGE ASC'}
+			/>
+		</Picker>
+	)
+}
 
-	return <RepositoryListContainer repositories={repositories} />
+const RepositoryList = () => {
+	const [orderRules, setOrderRules] = useState('CREATED_AT DESC')
+	const { repositories } = useRepositories(
+		orderRules.split(' ')[0],
+		orderRules.split(' ')[1]
+	)
+
+	return (
+		<>
+			<OrderSelector orderRules={orderRules} setOrderRules={setOrderRules} />
+			<RepositoryListContainer repositories={repositories} />
+		</>
+	)
 }
 
 export default RepositoryList
