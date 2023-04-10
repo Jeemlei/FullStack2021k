@@ -11,6 +11,7 @@ import { useAuthStorage } from '../hooks/useAuthStorage'
 import Button from './Button'
 import RepositoryView from './RepositoryView'
 import CreateReview from './CreateReview'
+import SignUp from './SignUp'
 
 const styles = StyleSheet.create({
 	container: {
@@ -46,12 +47,16 @@ const Main = () => {
 						</Button>
 					</>
 				) : (
-					<AppBarTab text={'Sign in'} to={'/signin'} />
+					<>
+						<AppBarTab text={'Sign in'} to={'/signin'} />
+						<AppBarTab text={'Sign up'} to={'/signup'} />
+					</>
 				)}
 			</AppBar>
 			<Routes>
 				<Route path="/" element={<RepositoryList />} exact />
 				<Route path="/signin" element={<SignIn />} exact />
+				<Route path="/signup" element={<SignUp />} exact />
 				<Route path="/repository" element={<RepositoryView />} exact />
 				<Route path="/review" element={<CreateReview />} exact />
 				<Route path="*" element={<Navigate to="/" replace />} />
