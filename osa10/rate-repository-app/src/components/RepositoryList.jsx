@@ -8,7 +8,7 @@ import { useDebounce } from 'use-debounce'
 import { Picker } from '@react-native-picker/picker'
 import { styles } from './FormikTextInput'
 
-export const RepositoryListContainer = ({ repositories }) => {
+export const RepositoryListContainer = ({ repositories, onEndReach }) => {
 	const navigate = useNavigate()
 	const repositoryNodes = repositories
 		? repositories.edges.map(edge => edge.node)
@@ -17,6 +17,8 @@ export const RepositoryListContainer = ({ repositories }) => {
 	return (
 		<FlatList
 			data={repositoryNodes}
+			onEndReached={onEndReach}
+			onEndReachedThreshold={0.5}
 			ItemSeparatorComponent={ItemSeparator}
 			renderItem={({ item }) => (
 				<Pressable
@@ -78,17 +80,21 @@ const RepositoryList = () => {
 	const [search, setSearch] = useState('')
 	const [debouncedSearch] = useDebounce(search, 500)
 	const [orderRules, setOrderRules] = useState('CREATED_AT DESC')
-	const { repositories } = useRepositories(
-		debouncedSearch,
-		orderRules.split(' ')[0],
-		orderRules.split(' ')[1]
-	)
+	const { repositories, fetchMore } = useRepositories({
+		first: 10,
+		searchKeyword: debouncedSearch,
+		orderBy: orderRules.split(' ')[0],
+		orderDirection: orderRules.split(' ')[1],
+	})
 
 	return (
 		<>
 			<Searchbar setSearch={setSearch} />
 			<OrderSelector orderRules={orderRules} setOrderRules={setOrderRules} />
-			<RepositoryListContainer repositories={repositories} />
+			<RepositoryListContainer
+				repositories={repositories}
+				onEndReach={() => fetchMore()}
+			/>
 		</>
 	)
 }
