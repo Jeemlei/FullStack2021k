@@ -1,9 +1,22 @@
 import { gql } from '@apollo/client'
 
 export const ME = gql`
-	query {
+	query ($includeReviews: Boolean = false) {
 		me {
 			id
+			reviews @include(if: $includeReviews) {
+				edges {
+					node {
+						id
+						text
+						rating
+						createdAt
+						repository {
+							fullName
+						}
+					}
+				}
+			}
 		}
 	}
 `

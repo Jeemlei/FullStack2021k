@@ -12,6 +12,7 @@ import Button from './Button'
 import RepositoryView from './RepositoryView'
 import CreateReview from './CreateReview'
 import SignUp from './SignUp'
+import MyReviews from './MyReviews'
 
 const styles = StyleSheet.create({
 	container: {
@@ -42,6 +43,7 @@ const Main = () => {
 				{data && data.me ? (
 					<>
 						<AppBarTab text={'Create a review'} to={'/review'} />
+						<AppBarTab text={'My reviews'} to={'/myreviews'} />
 						<Button onPress={signOut} style={tabStyle}>
 							Sign out
 						</Button>
@@ -59,6 +61,7 @@ const Main = () => {
 				<Route path="/signup" element={<SignUp />} exact />
 				<Route path="/repository" element={<RepositoryView />} exact />
 				<Route path="/review" element={<CreateReview />} exact />
+				<Route path="/myreviews" element={<MyReviews />} exact />
 				<Route path="*" element={<Navigate to="/" replace />} />
 			</Routes>
 		</View>
