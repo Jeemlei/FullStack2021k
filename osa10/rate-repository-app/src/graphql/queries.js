@@ -12,6 +12,7 @@ export const ME = gql`
 						rating
 						createdAt
 						repository {
+							id
 							fullName
 						}
 					}
